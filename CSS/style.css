@@ -49,16 +49,41 @@ height: 146px;
 background-color: #A7E9AF;
 border: 1px solid #99CEA8;
 border-radius: 5px;
+display:block;
 display: flex;
 justify-content: center;
 align-items: center;
 margin-bottom: 24px;
 margin-right: 24px;
+transition: all 1s;
+transform-style: preserve-3d;
+position: relative;
+}
+
+.frente{
+    width: 100px;
+    height: 100px;
+    background-image: url('../arquivos/back.png');
+    background-position: center;
+    background-size: cover;
+    backface-visibility: hidden;
+    position: absolute;
+    
+}
+
+.versogif{
+    width: 117px;
+height: 146px;
+background-color: #A7E9AF;
+border: 1px solid #99CEA8;
+border-radius: 5px;
+    transform: rotatey(180deg);
+    backface-visibility: hidden;
 }
 
 @media (max-width: 614px) {
 
-    }
+    
     .containerjogo{
         flex-direction: column;
         margin-top: 40px;
@@ -70,3 +95,4 @@ margin-right: 24px;
 font-size: 36px;
 line-height: 42px;
     }
+}
