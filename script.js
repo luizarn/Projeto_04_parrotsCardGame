@@ -15,15 +15,18 @@ const gifs = [
 'zombieparrot',
 ];
 
-
+let contador = 0;
+let vitorias = 0;
+let qtdeCartas;
 let escolhidas =[];
-
+let itemComparador;
+let cartas = [];
+let indice1;
 
 window.onload = function iniciar(){
-let qtdeCartas = Number(prompt('Diga a quantidade de cartas (obs.: entre 4 e 14)'));
+qtdeCartas = Number(prompt('Diga a quantidade de cartas (obs.: entre 4 e 14)'));
 while(qtdeCartas%2==1 || qtdeCartas<4 || qtdeCartas >14){
 alert ("Quantidade de cartas inválida!");
-qtdeCartas = prompt('Diga a quantidade de cartas');
 }
 
 //preciso inserir cartas no containeir que não tem nada, tem que selecionar ele
@@ -42,16 +45,16 @@ jogoreal.innerHTML +=
  }
 }
 
-
 function comparador() {
     return Math.random() - 0.5;
 }
 
 function virareMarcar(elemento){
- 
+   
+//contar o número de jogadas/cliques
+     contador++
     //quando clicar, adicionar na array vazia
     escolhidas.push(elemento);
-    console.log(elemento)
      //preciso desvirar a carta que foi clicada
     elemento.classList.toggle('virada');
  
@@ -59,39 +62,37 @@ function virareMarcar(elemento){
     if(escolhidas.length === 2){
     var carta1 = selecionarCarta(0);
     var carta2 = selecionarCarta(1);
-    console.log(carta1)
-    console.log(carta2)
+    
         if(carta1 === carta2){
-            alert("acertou")
+            //para não poder ser clicado novamente nas cartas que são iguais
+            setTimeout(()=>{elemento.removeAttribute("onclick")},100);
+            setTimeout(()=>{itemComparador.removeAttribute("onclick")},100);
             escolhidas = [];
+            vitorias += 2
         }
-        else {
-            alert("errou")
-            escolhidas = [];
-            setTimeout(desvirar, 2000);
-            console.log(carta1)
-            console.log(carta2)
+
+        else if(carta1 !== carta2) {
+            setTimeout(()=>{itemComparador.classList.remove('virada')},1000);
+            setTimeout(()=>{elemento.classList.remove('virada')},1000);
+            setTimeout(()=>{escolhidas = [];},2001);
+        }
     }
+
+    if(escolhidas.length < 2){
+        itemComparador = elemento
+    }
+
+    if(vitorias == qtdeCartas){
+        setTimeout(fimdeJogo, 800);
+        }
 }
-    }
 
 function selecionarCarta(i){
     var carta = escolhidas[i].querySelector("img");
     var gifselecionado  = carta.getAttribute('src');
     return gifselecionado;
 }
-
-function desvirar(){
-    const cartas = document.querySelectorAll('.virada');
-    for( let i = 0; i < cartas.length; i++){
-        cartas[i].classList.remove('virada');
-    }
-  }
-
-
-
-
-
-
-
-
+    
+function fimdeJogo(){
+    alert(`Você ganhou em ${contador} jogadas!`)
+}
